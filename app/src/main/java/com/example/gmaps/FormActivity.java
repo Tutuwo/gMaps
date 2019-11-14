@@ -61,8 +61,6 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
     private String tipo;
     private Paragraph paragraph;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +88,7 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
             addresses = geocoder.getFromLocation(lati,longi,1);
             address = addresses.get(0).getAddressLine(0);
             textView1.setText("\nLatitude: " + lat + "\nLongitude: " + lon + "\n\nData: " + tempo + "\n\nMorada: " + address+"\n\n");
-            mensagem="Coordenadas Geográficas: \n" + lat + "," + lon + "\n\nData: " + currentDate + "\n\nMorada:\n " + address + "\n\nTipo:" + tipo;
+            mensagem="Coordenadas Geográficas: \n" + lat + "," + lon + "\n\nData: " + currentDate + "\n\nMorada:\n " + address ;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -111,14 +109,14 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 tipo = spinner.getSelectedItem().toString();
-                //sendEmail(mensagem, tempo);
                 try {
-                    createPDF(tempo, image);
+                    createPDF(tempo);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (DocumentException e) {
                     e.printStackTrace();
                 }
+                sendEmail(mensagem, tempo);
             }
         });
 
@@ -140,13 +138,10 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
     }
 
-    public void sendEmail(String msg, String tempo, File myFile){
+    public void sendEmail(String msg, String tempo){
         Intent intentEmail = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + "ocorrenciasedpguarda@gmail.com"));
         intentEmail.putExtra(Intent.EXTRA_SUBJECT, "Ocorrência " + tempo);
-        intentEmail.putExtra(Intent.EXTRA_TEXT, msg + "\n\nDescrição:\n" + et.getText().toString());
-        Uri uri = Uri.parse(myFile.getAbsolutePath());
-        intentEmail.putExtra(Intent.EXTRA_STREAM, uri);
-
+        intentEmail.putExtra(Intent.EXTRA_TEXT, msg + "\n\nTipo:\n" + tipo + "\n\nDescrição:\n" + et.getText().toString());
 
         startActivity(intentEmail);
     }
@@ -169,13 +164,13 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
                 .collection("Reports");
         reportRef.add(new Note(data, descricao, morada, url, latit, longit, tip));
         Toast.makeText(this, "Report added\nLat: "+latit+"\nLongi: " +longit, Toast.LENGTH_SHORT).show();
-        finish();
+        
     }
 
-    public void createPDF(String currentDate, String url) throws IOException, DocumentException {
+    public void createPDF(String currentDate) throws IOException, DocumentException {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            File pdfFolder= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),"pdftest");
+            File pdfFolder= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),"REP: ");
             if(!pdfFolder.exists()){
                 pdfFolder.mkdir();
             }
@@ -197,8 +192,6 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
             generateReport(document, currentDate);
 
             document.close();
-
-            sendEmail(mensagem, currentDate, myFile);
 
         }
 

@@ -80,30 +80,30 @@ public class NoteActivity extends AppCompatActivity {
                 Double lon = note.getLongi();
                 String desc = note.getDescricao();
                 String morada = note.getMorada();
-                Toast.makeText(NoteActivity.this,
-                        "Position: " + position + "\nID: " + id + "\n\nData: " + data, Toast.LENGTH_SHORT).show();
+                String tipo = note.getTipo();
+                String url = note.getUrl();
 
-
-
-                //openRegister(lat, lon, data, desc, morada);
+                openRegister(lat, lon, data, desc, morada, tipo, url);
 
             }
         });
 
     }
 
-    /*private void openRegister(double latitude, double longitude, String data, String desc, String morada) {
+    private void openRegister(double latitude, double longitude, String data, String desc, String morada, String tipo, String url) {
         String lat = String.valueOf(latitude);
         String lon = String.valueOf(longitude);
 
-        Intent intent = new Intent(this, RegisterActivity.class);
+        Intent intent = new Intent(this, ItemActivity.class);
         intent.putExtra("LAT", lat);
         intent.putExtra("LONG", lon);
         intent.putExtra("DATA", data);
         intent.putExtra("DESC", desc);
-        intent.putExtra("DATA", morada);
+        intent.putExtra("MORADA", morada);
+        intent.putExtra("TIPO",tipo);
+        intent.putExtra("URL",url);
         startActivity(intent);
-    }*/
+    }
 
     @Override
     protected void onStart() {

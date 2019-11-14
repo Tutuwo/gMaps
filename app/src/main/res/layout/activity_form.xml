@@ -59,6 +59,7 @@
                 android:textSize="20dp"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="266dp"
+                android:paddingTop="15dp"
                 />
 
             <com.zolad.zoominimageview.ZoomInImageView

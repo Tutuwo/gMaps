@@ -23,7 +23,7 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
     @Override
     protected void onBindViewHolder(@NonNull NoteHolder holder, int position, @NonNull Note model) {
         holder.textViewTitle.setText(model.getData());
-        holder.textViewMorada.setText(model.getMorada());
+        holder.textViewMorada.setText(model.getTipo() + "  " + model.getDescricao());
     }
 
 

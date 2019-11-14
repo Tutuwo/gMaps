@@ -25,7 +25,6 @@ public class OptionsActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(OptionsActivity.this, "Registo escolhido!!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(OptionsActivity.this, MapsActivity.class);
                 startActivity(intent);
             }
@@ -34,7 +33,6 @@ public class OptionsActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(OptionsActivity.this, "Listagem escolhida!!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(OptionsActivity.this, NoteActivity.class);
                 startActivity(intent);
             }

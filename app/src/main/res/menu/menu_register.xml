@@ -7,9 +7,4 @@
         android:title="Por Tipo"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/item2"
-        android:title="Por Localidade"
-        app:showAsAction="never" />
-
 </menu>

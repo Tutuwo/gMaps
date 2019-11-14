@@ -86,7 +86,6 @@ public class RegisterActivity extends AppCompatActivity implements OnMapReadyCal
             @Override
             public void onClick(View v) {
                 geoLocate();
-                //Toast.makeText(RegisterActivity.this, "It Works!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -127,7 +126,6 @@ public class RegisterActivity extends AppCompatActivity implements OnMapReadyCal
                                         LatLng latLng = new LatLng(lat, lon);
 
                                         mMap.addMarker(new MarkerOptions().position(latLng).title(tipo).icon(BitmapDescriptorFactory.defaultMarker(color)));
-                                        Toast.makeText(RegisterActivity.this, tipo +" Escolhido" + "\nLat: " + lat + "\nLong: " + lon, Toast.LENGTH_SHORT).show();
 
                                     }
                                 } else {
@@ -147,9 +145,6 @@ public class RegisterActivity extends AppCompatActivity implements OnMapReadyCal
                 mBuilder.setView(mView1);
                 AlertDialog dialog = mBuilder.create();
                 dialog.show();
-                break;
-            case R.id.item2:
-                Toast.makeText(this, "Localidade", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
