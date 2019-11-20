@@ -8,12 +8,12 @@ public class Note {
     private Double lati;
     private Double longi;
     private String tipo;
-    private String localidade;
+    private String conc;
     public Note() {
         //empty constructor needed
     }
 
-    public Note(String data, String descricao, String morada, String url, Double lati, Double longi, String tipo) {
+    public Note(String data, String descricao, String morada, String url, Double lati, Double longi, String tipo, String conc) {
         this.data = data;
         this.descricao= descricao;
         this.morada = morada;
@@ -21,6 +21,7 @@ public class Note {
         this.lati = lati;
         this.longi = longi;
         this.tipo = tipo;
+        this.conc = conc;
 
     }
 
@@ -45,4 +46,6 @@ public class Note {
     }
 
     public String getTipo() { return tipo; }
+
+    public String getConc() { return conc; }
 }

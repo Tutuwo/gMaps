@@ -43,12 +43,21 @@
                 android:textSize="20dp"/>
 
             <Spinner
-                android:id="@+id/spinner1"
+                android:id="@+id/spinner2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
                 android:paddingTop="15dp"/>
+
+            <Spinner
+                android:id="@+id/spinner1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"/>
 
             <EditText
                 android:id="@+id/edittext"
@@ -68,22 +77,44 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/edittext" />
 
+
+
+
+        <LinearLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/imageView">
+
             <Button
                 android:id="@+id/btnSend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imageView"
-                android:layout_gravity="center_horizontal"
-                android:text="Enviar" />
+                android:layout_gravity="start"
+                android:text="Enviar Email"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"/>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/button_add"
+            <Button
+                android:id="@+id/btnPDF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                android:src="@drawable/ic_add" />
+                android:layout_gravity="center"
+                android:text="Gerar PDF"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"/>
 
+            <Button
+                android:id="@+id/btnRegistp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="Adiccionar Registo"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
 
         </LinearLayout>
 

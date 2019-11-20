@@ -18,6 +18,24 @@
         <item>Coluna IP</item>
         <item>Luminárias</item>
     </string-array>
+
+    <string-array name="concelhos">
+        <item>Seleccione Concelho</item>
+        <item>Aguiar da Beira</item>
+        <item>Almeida</item>
+        <item>Celorico da Beira</item>
+        <item>Figueira de Castelo Rodrigo</item>
+        <item>Fornos de Algodres</item>
+        <item>Gouveia</item>
+        <item>Guarda</item>
+        <item>Manteigas</item>
+        <item>Mêda</item>
+        <item>Pinhel</item>
+        <item>Sabugal</item>
+        <item>Seia</item>
+        <item>Trancoso</item>
+        <item>Vila Nova de Foz Côa</item>
+    </string-array>
     <string name="title_activity_maps2">Map</string>
 
 

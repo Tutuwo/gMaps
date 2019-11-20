@@ -54,12 +54,13 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
     private Geocoder geocoder;
     private List<Address> addresses;
     private String address;
-    private Button btn;
+    private Button btnE, btnP, btnR;
     private String mensagem;
     private EditText et;
     private ZoomInImageView imageView;
-    private String tipo;
+    private String tipo, conc;
     private Paragraph paragraph;
+    private String imagem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,12 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
+        final Spinner spinner1 =findViewById(R.id.spinner2);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.concelhos, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner1.setAdapter(adapter1);
+        spinner1.setOnItemSelectedListener(this);
+
         lat = getIntent().getStringExtra("LAT");
         lon = getIntent().getStringExtra("LONG");
         Calendar calendar = Calendar.getInstance();
@@ -87,14 +94,15 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         try {
             addresses = geocoder.getFromLocation(lati,longi,1);
             address = addresses.get(0).getAddressLine(0);
-            textView1.setText("\nLatitude: " + lat + "\nLongitude: " + lon + "\n\nData: " + tempo + "\n\nMorada: " + address+"\n\n");
             mensagem="Coordenadas Geográficas: \n" + lat + "," + lon + "\n\nData: " + currentDate + "\n\nMorada:\n " + address ;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        textView1.setText("\nLatitude: " + lat + "\nLongitude: " + lon + "\n\nData: " + tempo + "\n\nMorada: " + address+"\n\n");
         et = findViewById(R.id.edittext);
-        btn = findViewById(R.id.btnSend);
+        btnE = findViewById(R.id.btnSend);
+        btnP = findViewById(R.id.btnPDF);
+        btnR = findViewById(R.id.btnRegistp);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
         imageView = findViewById(R.id.imageView);
@@ -102,13 +110,23 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
 
         Picasso.with(getApplicationContext()).load(url).into(imageView);
 
-        final String image = url;
+        imagem = url;
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        btnE.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 tipo = spinner.getSelectedItem().toString();
+                conc = spinner1.getSelectedItem().toString();
+                sendEmail(mensagem, tempo);
+            }
+        });
+
+        btnP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tipo = spinner.getSelectedItem().toString();
+                conc = spinner1.getSelectedItem().toString();
                 try {
                     createPDF(tempo);
                 } catch (IOException e) {
@@ -116,17 +134,15 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
                 } catch (DocumentException e) {
                     e.printStackTrace();
                 }
-                sendEmail(mensagem, tempo);
             }
         });
 
-        FloatingActionButton addReport = findViewById(R.id.button_add);
-        addReport.setOnClickListener(new View.OnClickListener() {
+        btnR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tipo = spinner.getSelectedItem().toString();
-                addToList(tempo, et.getText().toString(), mensagem, image, lati, longi, tipo);
-
+                conc = spinner1.getSelectedItem().toString();
+                addToList(tempo, et.getText().toString(), mensagem, imagem, lati, longi, tipo, conc);
             }
         });
 
@@ -153,16 +169,16 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-    public void addToList(String data, String descricao, String morada, String url, Double latit, Double longit, String tip){
+    public void addToList(String data, String descricao, String morada, String url, Double latit, Double longit, String tip, String conc){
 
-        if (data.trim().isEmpty() || descricao.trim().isEmpty() || morada.trim().isEmpty() || tip.trim().equals("Material Avariado")) {
-            Toast.makeText(this, "Please insert a title and description", Toast.LENGTH_SHORT).show();
+        if (data.trim().isEmpty() || descricao.trim().isEmpty() || morada.trim().isEmpty() || tip.trim().equals("Material Avariado") || conc.trim().equals("Seleccione Concelho")) {
+            Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
             return;
         }
 
         CollectionReference reportRef = FirebaseFirestore.getInstance()
                 .collection("Reports");
-        reportRef.add(new Note(data, descricao, morada, url, latit, longit, tip));
+        reportRef.add(new Note(data, descricao, morada, url, latit, longit, tip, conc));
         Toast.makeText(this, "Report added\nLat: "+latit+"\nLongi: " +longit, Toast.LENGTH_SHORT).show();
         
     }
@@ -216,6 +232,8 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         paragraph= new Paragraph("Dados da Avaria",fSubTitle);
         paragraph= new Paragraph("Localização da Avaria:",fHighText);
         paragraph.setSpacingAfter(15);
+        document.add(paragraph);
+        paragraph= new Paragraph("URL do Mapa: " + imagem,fNText);
         document.add(paragraph);
         paragraph= new Paragraph("Latitude: " +lat,fNText);
         document.add(paragraph);
